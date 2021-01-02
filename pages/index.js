@@ -1,65 +1,31 @@
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import ToolCard from '../components/tool-card';
+import Link from 'next/link'
 
 export default function Home() {
+  const tools = [
+    {
+      title: 'Valor por tempo de trabalho',
+      description: 'Calcule o valor a ser recebido com base nas horas e minutos trabalhados.',
+      link: 'ferramentas/horas-de-trabalho'
+    }
+  ]
   return (
-    <div className={styles.container}>
+    <>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>MG ToolBox - Sua caixa de ferramentas online</title>
+        <meta name='description' content='Várias ferramentas para ajudar sua vida online, calculadoras, contadores, conversores e muito mais.' />
       </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {tools.map(tool => (
+          <Link href={tool.link}>
+            <a className="rounded bg-white p-5 shadow-lg border border-gray-300 transition ease-in duration-100 hover:shadow-xl transform hover:scale-105">
+              <h2 className="text-xl font-bold text-indigo-600">{tool.title}</h2>
+              <p className="text-gray-500 mt-2">{tool.description}</p>
+            </a>
+          </Link>
+        ))}
+      </section>
+    </>
   )
 }
