@@ -10,11 +10,15 @@ export default function HorasDeTrabalho() {
   const [result, setResult] = useState(null);
 
   const calculateResult = () => {
+    if (!price || !hours) {
+      setResult(null);
+      return;
+    }
+
     const MINUTES_IN_ONE_HOUR = 60;
     const pricePerMinute = Number(price.toString().replaceAll('.', '').replaceAll(',', '.')) / 60;
     const totalMinutes = Number(minutes) + (Number(hours) * MINUTES_IN_ONE_HOUR);
     const totalPrice = Number(pricePerMinute * totalMinutes).toFixed(2);
-    console.log(totalMinutes, totalPrice);
     setResult(Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalPrice))
   }
 
@@ -28,7 +32,7 @@ export default function HorasDeTrabalho() {
   },[price,hours,minutes])
 
   return (
-    <div className='grid grid-cols-2 gap-4'>
+    <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
       <form onSubmit={onSubmitForm}>
         <div className="p-8 d-flex justify-center align-center flex-1 flex-column border border-gray-200 bg-white rounded shadow-sm">
           <label className="block mb-2 font-semibold">Horas e Minutos Trabalhados</label>
