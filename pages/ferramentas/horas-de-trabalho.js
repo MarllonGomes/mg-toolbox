@@ -1,6 +1,6 @@
-import { parse } from "postcss";
 import { useEffect, useState } from "react"
 import CurrencyImput from 'react-currency-input-field';
+import Head from 'next/head';
 
 export default function HorasDeTrabalho() {
 
@@ -29,51 +29,59 @@ export default function HorasDeTrabalho() {
 
   useEffect(() => {
     calculateResult();
-  },[price,hours,minutes])
+  }, [price, hours, minutes])
 
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-      <form onSubmit={onSubmitForm}>
-        <div className="p-8 d-flex justify-center align-center flex-1 flex-column border border-gray-200 bg-white rounded shadow-sm">
-          <label className="block mb-2 font-semibold">Horas e Minutos Trabalhados</label>
-          <div className='grid grid-cols-2 gap-2'>
-            <div>
-              <label className='text-xs'>Horas</label>
-              <input placeholder='Horas' type="number" value={hours} onChange={(e) => setHours(e.target.value)} className="border-gray-200 border px-4 py-2 rounded w-full mb-5" />
+    <>
+      <Head>
+        <title>Calculadora de Valor Por Horas Trabalhadas - MG ToolBox</title>
+        <meta name='description' content='Calcule o valor a ser recebido com base no valor por hora e tempo trabalhado' />
+        <link rel='canonical' content='/ferramentas/horas-de-trabalho' />
+      </Head>
+
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+        <form onSubmit={onSubmitForm}>
+          <div className="p-8 d-flex justify-center align-center flex-1 flex-column border border-gray-200 bg-white rounded shadow-sm">
+            <label className="block mb-2 font-semibold">Horas e Minutos Trabalhados</label>
+            <div className='grid grid-cols-2 gap-2'>
+              <div>
+                <label className='text-xs'>Horas</label>
+                <input placeholder='Horas' type="number" value={hours} onChange={(e) => setHours(e.target.value)} className="border-gray-200 border px-4 py-2 rounded w-full mb-5" />
+              </div>
+              <div>
+                <label className='text-xs'>Minutos</label>
+                <input placeholder='Minutos' type="number" value={minutes} onChange={(e) => setMinutes(e.target.value)} className="border-gray-200 border px-4 py-2 rounded w-full mb-5" />
+              </div>
             </div>
-            <div>
-              <label className='text-xs'>Minutos</label>
-              <input placeholder='Minutos' type="number" value={minutes} onChange={(e) => setMinutes(e.target.value)} className="border-gray-200 border px-4 py-2 rounded w-full mb-5" />
-            </div>
+            <label className="block mb-2 font-semibold">Valor Por Hora</label>
+            <CurrencyImput
+              decimalSeparator=','
+              groupSeparator='.'
+              onChange={setPrice}
+              prefix='R$ '
+              className='border-gray-200 border px-4 py-2 rounded w-full mb-5'
+              placeholder='R$ 50,00'
+            />
+            <button onClick={calculateResult} className="block text-center py-2 px-3 w-full text-white bg-indigo-400 rounded pointer font-semibold">Calcular</button>
           </div>
-          <label className="block mb-2 font-semibold">Valor Por Hora</label>
-          <CurrencyImput
-            decimalSeparator=','
-            groupSeparator='.'
-            onChange={setPrice}
-            prefix='R$ '
-            className='border-gray-200 border px-4 py-2 rounded w-full mb-5'
-            placeholder='R$ 50,00'
-          />
-          <button onClick={calculateResult} className="block text-center py-2 px-3 w-full text-white bg-indigo-400 rounded pointer font-semibold">Calcular</button>
+        </form>
+        <div className="p-8 text-center justify-center items-center flex flex-1 flex-col border border-gray-200 bg-white rounded shadow-sm">
+
+          {result === null &&
+            <p className="text-gray-500 mb-4">Preencha os valores ao lado e clique em calcular para saber o valor.</p>
+          }
+
+          {result !== null &&
+            <>
+              <h2 className="text-2xl font-medium mb-2">Resultado</h2>
+              <div>
+                <p className="text-gray-500 mb-4">O valor a ser pago pelo trabalho será:</p>
+                <h3 className="text-indigo-400 text-5xl font-bold">{result}</h3>
+              </div>
+            </>
+          }
         </div>
-      </form>
-      <div className="p-8 text-center justify-center items-center flex flex-1 flex-col border border-gray-200 bg-white rounded shadow-sm">
-
-        {result === null &&
-          <p className="text-gray-500 mb-4">Preencha os valores ao lado e clique em calcular para saber o valor.</p>
-        }
-
-        {result !== null &&
-          <>
-            <h2 className="text-2xl font-medium mb-2">Resultado</h2>
-            <div>
-              <p className="text-gray-500 mb-4">O valor a ser pago pelo trabalho será:</p>
-              <h3 className="text-indigo-400 text-5xl font-bold">{result}</h3>
-            </div>
-          </>
-        }
       </div>
-    </div>
+    </>
   )
 }
